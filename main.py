@@ -29,4 +29,5 @@ with col4:
                                   "Students"])
 
 if st.button("Generate Blog"):
-    st.write(generate_blog(blog_topic, blog_wordcount, blog_style, blog_tone, blog_audience))
+    with st.spinner("Generating the blog..."):
+        st.text(generate_blog(blog_topic, blog_wordcount, blog_style, blog_tone, blog_audience))
