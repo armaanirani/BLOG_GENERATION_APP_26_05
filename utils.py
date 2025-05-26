@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 
-
+from langchain_core.output_parsers import StrOutputParser
 from langchain.prompts import PromptTemplate
 from langchain_ollama import OllamaLLM
 from langchain_groq import ChatGroq
@@ -144,7 +144,7 @@ def generate_blog(blog_topic, blog_wordcount, blog_style, blog_tone, blog_audien
     {{/user}}
     """
     
-    template = """
+    template4 = """
     **Task:** Write a high-quality blog post based on the following parameters.
 
     **Parameters:**
@@ -184,16 +184,20 @@ def generate_blog(blog_topic, blog_wordcount, blog_style, blog_tone, blog_audien
     """
     prompt = PromptTemplate(
         input_variables=["blog_topic", "blog_wordcount", "blog_style", "blog_tone", "blog_audience"],
-        template=template1
+        template=template3
     )
     
-    response = llm(prompt.format(
-        blog_topic=blog_topic,
-        blog_wordcount=blog_wordcount,
-        blog_style=blog_style,
-        blog_tone=blog_tone,
-        blog_audience=blog_audience
-    ))
+    chain = prompt | llm | StrOutputParser()
+    
+    response = chain.invoke(
+        {
+            "blog_topic": blog_topic,
+            "blog_wordcount": blog_wordcount,
+            "blog_style": blog_style,
+            "blog_tone": blog_tone,
+            "blog_audience": blog_audience
+        }
+    )
     
     print(response)
     
