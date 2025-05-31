@@ -5,15 +5,25 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain.prompts import PromptTemplate
 from langchain_ollama import OllamaLLM
 from langchain_groq import ChatGroq
+from langchain_openai import ChatOpenAI
 
 load_dotenv()
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-model = "llama-3.3-70b-versatile"
-llm = ChatGroq(
+
+# model = "llama-3.3-70b-versatile"
+# llm = ChatGroq(
+#     model=model,
+#     temperature=0,
+#     api_key=GROQ_API_KEY
+# )
+
+model = "gpt-4.1-nano-2025-04-14"
+llm = ChatOpenAI(
     model=model,
     temperature=0,
-    api_key=GROQ_API_KEY
+    api_key=OPENAI_API_KEY
 )
 
 def generate_blog(blog_topic, blog_wordcount, blog_style, blog_tone, blog_audience):
